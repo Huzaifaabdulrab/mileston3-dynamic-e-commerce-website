@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import { useState, useEffect } from "react";
 import Image from "next/image";
@@ -16,7 +16,7 @@ interface Product {
   brand: string;
 }
 
-async function fetchProduct(id: string|number) {
+async function fetchProduct(id: string | number) {
   const res = await fetch(`https://jsonserver.reactbd.com/phone/${id}`);
   if (!res.ok) {
     throw new Error("Failed to fetch product");
@@ -41,9 +41,9 @@ const generateRandomStar = () => {
 export default function ProductDetailPage({
   params,
 }: {
-  params: { id: number }; // Fixed params type
+  params: { id: string };
 }) {
-  const [product, setProduct] = useState<Product>();
+  const [product, setProduct] = useState<Product | null>(null);
   const [heart, setHeart] = useState(false);
 
   useEffect(() => {
@@ -77,17 +77,13 @@ export default function ProductDetailPage({
                 {product?.description}
               </a>
             </div>
-            <a className="flex py-3 text-lg  px-1">
+            <a className="flex py-3 text-lg px-1">
               Reviews {generateRandomStar()}
             </a>
             <div className="flex border-t border-gray-200 py-2">
               <span className="text-gray-500">Brand</span>
               <span className="ml-auto text-gray-900">{product?.brand}</span>
             </div>
-            <div className="flex border-t border-gray-200 py-2">
-              <span className="text-gray-500">Quantity</span>
-            </div>
-
             <div className="flex border-t border-gray-200 py-2">
               <span className="text-gray-500">Previous Price</span>
               <span className="ml-auto text-gray-900">
@@ -98,7 +94,7 @@ export default function ProductDetailPage({
               <span className="text-gray-500">Latest Price</span>
               <span className="ml-auto text-gray-900 ">{product?.price}$</span>
             </div>
-            <div className="flex mt-2 ">
+            <div className="flex mt-2">
               <span className="title-font font-medium text-2xl text-gray-900">
                 ${product?.price}
               </span>
@@ -121,9 +117,9 @@ export default function ProductDetailPage({
             alt={product?.title}
             className="lg:w-1/2 w-full lg:h-auto h-64 object-cover object-center rounded"
             src={product?.image}
-            width={500} // Specify a width
-            height={500} // Specify a height
-            priority={true} // Optional: Optimizes loading
+            width={500}
+            height={500}
+            priority={true}
           />
         </div>
       </div>

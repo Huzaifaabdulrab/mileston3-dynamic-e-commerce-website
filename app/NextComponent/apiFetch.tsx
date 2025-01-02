@@ -1,9 +1,10 @@
-// 'use client'
+'use client';
+
 import Image from "next/image";
 import Link from "next/link";
 import { Card, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-
 import { FaArrowRight } from "react-icons/fa";
+
 async function fetchProducts() {
   const res = await fetch("https://jsonserver.reactbd.com/phone");
   if (!res.ok) {
@@ -11,6 +12,7 @@ async function fetchProducts() {
   }
   return res.json();
 }
+
 interface productData {
   _id: number | string;
   image: string;
@@ -19,6 +21,7 @@ interface productData {
   category: string;
   previousPrice: string;
 }
+
 export default async function FetchProduct() {
   const products = await fetchProducts();
 
