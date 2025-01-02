@@ -15,7 +15,7 @@ interface Product {
   brand: string;
 }
 
-async function fetchProduct(id: string) {
+async function fetchProduct(id: number) {
   const res = await fetch(`https://jsonserver.reactbd.com/phone/${id}`);
   if (!res.ok) {
     throw new Error("Failed to fetch product");
@@ -41,7 +41,7 @@ const generateRandomStar = () => {
 export default function ProductDetailPage({
   params,
 }: {
-  params: { id: string };
+  params: { id: number };
 }) {
   const [product, setProduct] = useState<Product | null>(null);
   const [heart, setHeart] = useState(false);
