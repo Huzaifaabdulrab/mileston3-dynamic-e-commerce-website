@@ -4,7 +4,7 @@ import { Twitter, Instagram, Facebook, Linkedin } from "lucide-react";
 export default function Footer() {
   const currentYear = new Date().getFullYear();
   return (
-    <footer className="lg:block hidden mt-20 text-gray-600 body-font bg-gray-50">
+    <footer className="lg:block mt-20 text-gray-600 body-font bg-gray-50">
       <div className="container px-5 py-8 mx-auto flex items-center sm:flex-row flex-col">
         <a className="flex title-font font-medium items-center md:justify-start justify-center text-gray-900">
           <span className="tex text-2xl font-semibold">M</span>
