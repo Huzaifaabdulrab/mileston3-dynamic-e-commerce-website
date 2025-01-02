@@ -1,3 +1,4 @@
+// 'use client'
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -8,15 +9,6 @@ import {
 } from "@/components/ui/card";
 import { FaArrowRight } from "react-icons/fa";
 
-// Fetch products during server-side rendering
-async function fetchProducts() {
-  const res = await fetch("https://jsonserver.reactbd.com/phone");
-  if (!res.ok) {
-    throw new Error("Failed to fetch products");
-  }
-  return res.json();
-}
-
 interface ProductData {
   _id: number;
   image: string;
@@ -26,7 +18,19 @@ interface ProductData {
   previousPrice: string;
 }
 
-export default function FetchProduct({ products }: { products: ProductData[] }) {
+// Server-side data fetching inside the App Directory component
+async function fetchProducts() {
+  const res = await fetch("https://jsonserver.reactbd.com/phone");
+  if (!res.ok) {
+    throw new Error("Failed to fetch products");
+  }
+  return res.json();
+}
+
+export default async function FetchProduct() {
+  // Fetch products directly inside the component
+  const products: ProductData[] = await fetchProducts();
+
   return (
     <div className="flex flex-wrap justify-center items-center gap-20 mt-2">
       {products.map((product: ProductData) => (
@@ -58,10 +62,4 @@ export default function FetchProduct({ products }: { products: ProductData[] }) 
       ))}
     </div>
   );
-}
-
-// Fetch data on the server side and pass it as props to the component
-export async function getServerSideProps() {
-  const products = await fetchProducts(); // Fetch products on the server side
-  return { props: { products } }; // Return the products as props
 }
