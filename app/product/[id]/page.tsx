@@ -1,4 +1,5 @@
 'use client';
+
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import { FaHeart } from "react-icons/fa";
@@ -47,10 +48,14 @@ export default function ProductDetailPage({
 
   useEffect(() => {
     const fetchData = async () => {
-      const data = await fetchProduct(params.id);
-      setProduct(data);
+      try {
+        const data = await fetchProduct(params.id);
+        setProduct(data);
+      } catch (error) {
+        console.error("Error fetching product:", error);
+      }
     };
-    
+
     fetchData();
   }, [params.id]);
 
