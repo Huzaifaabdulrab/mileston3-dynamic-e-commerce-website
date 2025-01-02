@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import { useState, useEffect } from "react";
 import Image from "next/image";
@@ -6,7 +6,7 @@ import { FaHeart } from "react-icons/fa";
 import { IoIosStarOutline, IoMdStar } from "react-icons/io";
 
 interface Product {
-  _id: number;
+  _id: number | string;
   title: string;
   price: number;
   previousPrice?: number;
