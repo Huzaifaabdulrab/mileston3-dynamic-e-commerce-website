@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import { useState, useEffect } from "react";
 import Image from "next/image";
@@ -41,7 +41,7 @@ const generateRandomStar = () => {
 export default function ProductDetailPage({
   params,
 }: {
-  params: { id: string };
+  params: { id: string }; // Fixed params type
 }) {
   const [product, setProduct] = useState<Product | null>(null);
   const [heart, setHeart] = useState(false);
