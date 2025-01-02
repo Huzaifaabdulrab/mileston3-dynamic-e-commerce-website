@@ -15,7 +15,7 @@ interface Product {
   brand: string;
 }
 
-async function fetchProduct(id: number) {
+async function fetchProduct(id: string) {
   const res = await fetch(`https://jsonserver.reactbd.com/phone/${id}`);
   if (!res.ok) {
     throw new Error("Failed to fetch product");
@@ -27,35 +27,30 @@ const generateRandomStar = () => {
   const totalStar: number = 5;
   const filledStar = Math.floor(Math.random() * (totalStar + 1));
   const outlineStar = totalStar - filledStar;
-  const stars = Array.from({ length: filledStar }, (_, i) => (
-    <IoMdStar key={`filled-${i}`} className="text-yellow-400 mt-1 text-lg" />
-  ));
-  stars.push(
-    ...Array.from({ length: outlineStar }, (_, i) => (
-      <IoIosStarOutline key={`outline-${i}`} className="text-yellow-400 mt-1" />
-    ))
-  );
+  const stars = [];
+  for (let i = 0; i < filledStar; i++) {
+    stars.push(<IoMdStar key={i} className="text-yellow-400 mt-1 text-lg" />);
+  }
+  for (let i = 0; i < outlineStar; i++) {
+    stars.push(<IoIosStarOutline key={i} className="text-yellow-400 mt-1 " />);
+  }
   return stars;
 };
 
 export default function ProductDetailPage({
   params,
 }: {
-  params: { id: number };
+  params: { id: string };
 }) {
   const [product, setProduct] = useState<Product | null>(null);
   const [heart, setHeart] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
-      try {
-        const data = await fetchProduct(params.id);
-        setProduct(data);
-      } catch (error) {
-        console.error("Error fetching product:", error);
-      }
+      const data = await fetchProduct(params.id);
+      setProduct(data);
     };
-
+    
     fetchData();
   }, [params.id]);
 
@@ -70,33 +65,37 @@ export default function ProductDetailPage({
               {product.brand}
             </h2>
             <h1 className="text-gray-900 text-3xl title-font font-medium mb-4">
-              {product.title}
+              {product?.title}
             </h1>
             <div className="flex mb-4">
               <a className="flex-grow text-gray-500 border-b-2 border-indigo-500 py-2 text-lg px-1">
-                {product.description}
+                {product?.description}
               </a>
             </div>
-            <a className="flex py-3 text-lg px-1">
+            <a className="flex py-3 text-lg  px-1">
               Reviews {generateRandomStar()}
             </a>
             <div className="flex border-t border-gray-200 py-2">
               <span className="text-gray-500">Brand</span>
-              <span className="ml-auto text-gray-900">{product.brand}</span>
+              <span className="ml-auto text-gray-900">{product?.brand}</span>
             </div>
+            <div className="flex border-t border-gray-200 py-2">
+              <span className="text-gray-500">Quantity</span>
+            </div>
+
             <div className="flex border-t border-gray-200 py-2">
               <span className="text-gray-500">Previous Price</span>
               <span className="ml-auto text-gray-900">
-                {product.previousPrice ? <del>{product.previousPrice}$</del> : "N/A"}
+                <del>{product?.previousPrice}$</del>
               </span>
             </div>
             <div className="flex mb-2 border-t border-b border-gray-200 py-2">
               <span className="text-gray-500">Latest Price</span>
-              <span className="ml-auto text-gray-900">{product.price}$</span>
+              <span className="ml-auto text-gray-900 ">{product?.price}$</span>
             </div>
-            <div className="flex mt-2">
+            <div className="flex mt-2 ">
               <span className="title-font font-medium text-2xl text-gray-900">
-                ${product.price}
+                ${product?.price}
               </span>
               <button className="flex ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded">
                 Order
@@ -113,16 +112,14 @@ export default function ProductDetailPage({
               </button>
             </div>
           </div>
-          {product.image && (
-            <Image
-              alt={product.title}
-              className="lg:w-1/2 w-full lg:h-auto h-64 object-cover object-center rounded"
-              src={product.image}
-              width={500}
-              height={500}
-              priority
-            />
-          )}
+          <Image
+            alt={product?.title}
+            className="lg:w-1/2 w-full lg:h-auto h-64 object-cover object-center rounded"
+            src={product?.image}
+            width={500} // Specify a width
+            height={500} // Specify a height
+            priority={true} // Optional: Optimizes loading
+          />
         </div>
       </div>
     </section>
