@@ -17,7 +17,9 @@ interface Product {
 }
 
 async function fetchProduct(id: string | number) {
-  const res = await fetch(`https://jsonserver.reactbd.com/phone/${id}`);
+  const res = await fetch(`https://jsonserver.reactbd.com/phone/${id}`, {
+    next: { revalidate: 60 },
+  });
   if (!res.ok) {
     throw new Error("Failed to fetch product");
   }

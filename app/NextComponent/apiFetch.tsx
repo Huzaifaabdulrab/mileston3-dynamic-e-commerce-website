@@ -1,12 +1,12 @@
-'use client';
-
 import Image from "next/image";
 import Link from "next/link";
 import { Card, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { FaArrowRight } from "react-icons/fa";
 
 async function fetchProducts() {
-  const res = await fetch("https://jsonserver.reactbd.com/phone");
+  const res = await fetch("https://jsonserver.reactbd.com/phone", {
+    next: { revalidate: 60 },
+  });
   if (!res.ok) {
     throw new Error("Failed to fetch products");
   }
